@@ -7,7 +7,7 @@ export class GooglePay {
     this.handleGooglePageBack.bind(this);
   }
 
-  createClient(payload: Googlepay.PaymentDataRequest) {
+  private getClient(payload: Googlepay.PaymentDataRequest) {
     if (!this.client) {
       this.client = new google.payments.api.PaymentsClient({
         environment: this.environment,
@@ -19,6 +19,11 @@ export class GooglePay {
       });
     }
     return this.client;
+  }
+
+  createPayment(payload: Googlepay.PaymentDataRequest) {
+    // TODO: cache payload for this session
+    const client = this.getClient(payload);
   }
 
   private handleGooglePageBack() {

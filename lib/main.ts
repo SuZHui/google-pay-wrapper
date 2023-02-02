@@ -7,7 +7,7 @@ export function useGooglePay(env: Googlepay.Environment) {
   const instance = new GooglePay(env);
   return {
     createPayment(payload: Googlepay.PaymentDataRequest) {
-      return instance.createClient(payload);
+      return instance.createPayment(payload);
     },
     isReadyToPay() {
       const client = instance.getClient();
