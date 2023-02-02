@@ -1,6 +1,12 @@
 {
-  "name": "typescript",
-  "version": "0.0.0",
+  "name": "google-pay-wrapper",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "devDependencies": {
+    "@types/googlepay": "^0.6.4",
+    "vite": "^4.1.0"
+  },
+  "scripts": {
+    "dev": "vite build -w -c ./vite.config.js -m dev"
+  }
 }
