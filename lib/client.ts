@@ -6,6 +6,7 @@ export function createClient(
   callbackHolder: CallbackHolder
 ) {
   // TODO: 挂载的事件无法正确触发
+  // 判断是否用户传入了回调 如果传入 就 用holder包裹一层
   const {
     onPaymentDataChanged = callbackHolder.paymentDataChangedHandler,
     onPaymentAuthorized = callbackHolder.paymentAuthorizedHandler,
