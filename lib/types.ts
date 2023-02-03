@@ -11,4 +11,10 @@ namespace Googlepay {
   export type PaymentMethodSpecification =
     google.payments.api.PaymentMethodSpecification;
   export type CallbackIntent = google.payments.api.CallbackIntent;
+  export type PaymentOptions = google.payments.api.PaymentOptions;
+  export type PaymentAuthorizedHandler =
+    google.payments.api.PaymentAuthorizedHandler;
+
+  export type ButtonOptions = google.payments.api.ButtonOptions;
+  export type PaymentsError = google.payments.api.PaymentsError;
 }

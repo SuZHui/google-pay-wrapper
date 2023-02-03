@@ -59,17 +59,19 @@
   import { useGooglePay } from './lib/GooglePayWrapper.mjs';
   console.log(useGooglePay);
 
-  function onGooglePaymentButtonClicked() {
-    client
-      .loadPaymentData(window.paymentDataRequest)
-      .then(function (paymentData) {
-        // handle the response
-        console.log(paymentData);
-      })
-      .catch(function (err) {
-        // show error in developer console for debugging
-        console.error(err);
-      });
+  async function onGooglePaymentButtonClicked() {
+    console.log(client);
+    try {
+      const paymentData = await client.loadPaymentData(
+        window.paymentDataRequest
+      );
+      // handle the response
+      console.log('handle the response', paymentData);
+    } catch (err) {
+      // show error in developer console for debugging
+      console.log('show error in developer console for debugging');
+      console.error(err);
+    }
   }
 
   const {
@@ -81,6 +83,10 @@
 
   onPaymentAuthorized((o) => {
     console.log(o);
+  });
+
+  onBackFromGoogleAuth(() => {
+    alert('hello!');
   });
 
   const client = createClient({});

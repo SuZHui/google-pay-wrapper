@@ -1,5 +1,5 @@
 import { CallbackHolder } from './callback/CallbackHolder';
-import { GooglePay } from './GooglePay';
+import { createClient } from './client';
 
 function getCallbaks(holder: CallbackHolder) {
   const keys: Array<keyof CallbackHolder> = [
@@ -8,17 +8,18 @@ function getCallbaks(holder: CallbackHolder) {
     'onPaymentAuthorized',
   ];
   return keys.reduce((o, name) => {
-    o[name] = holder[name];
+    o[name] = holder[name].bind(holder);
     return o;
   }, {} as Record<keyof CallbackHolder, CallbackHolder[keyof CallbackHolder]>);
 }
 
 export function useGooglePay(env: Googlepay.Environment) {
-  const instance = new GooglePay(env);
-  const callbacks = instance.getCallbackHolder();
-  const { doAuthorize } = instance;
+  const callbackHolder = new CallbackHolder();
   return {
-    doAuthorize,
-    ...getCallbaks(callbacks),
+    createClient(options: Googlepay.PaymentOptions = {}) {
+      options.environment = options?.environment ?? env;
+      return createClient(options, callbackHolder);
+    },
+    ...getCallbaks(callbackHolder),
   };
 }
