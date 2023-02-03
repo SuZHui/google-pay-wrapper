@@ -1,21 +1,24 @@
-import { isReadyToPay } from './isReadyToPay';
+import { CallbackHolder } from './callback/CallbackHolder';
 import { GooglePay } from './GooglePay';
-import { createError, ErrorType } from './error';
+
+function getCallbaks(holder: CallbackHolder) {
+  const keys: Array<keyof CallbackHolder> = [
+    'onPaymentDataChanged',
+    'onBackFromGoogleAuth',
+    'onPaymentAuthorized',
+  ];
+  return keys.reduce((o, name) => {
+    o[name] = holder[name];
+    return o;
+  }, {} as Record<keyof CallbackHolder, CallbackHolder[keyof CallbackHolder]>);
+}
 
 export function useGooglePay(env: Googlepay.Environment) {
-  let client;
   const instance = new GooglePay(env);
+  const callbacks = instance.getCallbackHolder();
+  const { doAuthorize } = instance;
   return {
-    createPayment(payload: Googlepay.PaymentDataRequest) {
-      return instance.createPayment(payload);
-    },
-    isReadyToPay() {
-      const client = instance.getClient();
-      if (!client) {
-        throw createError(ErrorType.Uninitialized);
-      }
-      // TODO: PAYMENT REQUST 从instance缓存对象中获取，不再从入参获取
-      return isReadyToPay(client);
-    },
+    doAuthorize,
+    ...getCallbaks(callbacks),
   };
 }

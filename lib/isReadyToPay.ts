@@ -22,16 +22,9 @@ export async function isReadyToPay(
       },
     ],
   };
-  return client
-    .isReadyToPay(isReadyToPayRequest)
-    .then(function (response) {
-      if (response.result) {
-        return client;
-      }
-    })
-    .catch(function (err) {
-      // The request was initiated from a security context that the payment agent or the browser chose not to fulfill. Most commonly, this is an insecure browser context error.
-      console.log('google-pay:isReadyToPayError', err);
-      throw new Error(USER_ERROR_MESSAGE);
-    });
+  return client.isReadyToPay(isReadyToPayRequest).then(function (response) {
+    if (response.result) {
+      return client;
+    }
+  });
 }

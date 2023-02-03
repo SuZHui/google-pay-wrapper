@@ -1,1 +1,8 @@
-<div id="app">Hello World</div>
+<div>hello</div>
+<script type="module" src="lib/GooglePayWrapper.mjs"></script>
+<script type="module">
+  import { useGooglePay } from './lib/GooglePayWrapper.mjs';
+  console.log(useGooglePay);
+
+  const {} = useGooglePay;
+</script>

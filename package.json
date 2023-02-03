@@ -7,6 +7,7 @@
     "vite": "^4.1.0"
   },
   "scripts": {
-    "dev": "vite build -w -c ./vite.config.js -m dev"
+    "dev": "vite build -w -c ./vite.config.js -m dev",
+    "example": "vite -c ./vite.config.example.js"
   }
 }
