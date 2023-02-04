@@ -74,22 +74,19 @@
     }
   }
 
-  const {
-    createClient,
-    onBackFromGoogleAuth,
-    onPaymentAuthorized,
-    onPaymentDataChanged,
-  } = useGooglePay('TEST');
-
-  onPaymentAuthorized((o) => {
-    console.log(o);
-  });
+  const { createClient, onBackFromGoogleAuth } = useGooglePay('TEST');
 
   onBackFromGoogleAuth(() => {
     alert('hello!');
   });
 
-  const client = createClient({});
+  const client = createClient({
+    paymentDataCallbacks: {
+      onPaymentAuthorized(o) {
+        console.log(o);
+      },
+    },
+  });
   const button = client.createButton({
     onClick: onGooglePaymentButtonClicked,
     buttonSizeMode: 'fill',

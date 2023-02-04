@@ -1,25 +1,15 @@
 import { CallbackHolder } from './callback/CallbackHolder';
-import { createClient } from './client';
-
-function getCallbaks(holder: CallbackHolder) {
-  const keys: Array<keyof CallbackHolder> = [
-    'onPaymentDataChanged',
-    'onBackFromGoogleAuth',
-    'onPaymentAuthorized',
-  ];
-  return keys.reduce((o, name) => {
-    o[name] = holder[name].bind(holder);
-    return o;
-  }, {} as Record<keyof CallbackHolder, CallbackHolder[keyof CallbackHolder]>);
-}
+import { GooglePay } from './GooglePay';
 
 export function useGooglePay(env: Googlepay.Environment) {
   const callbackHolder = new CallbackHolder();
+  const { onBackFromGoogleAuth } = callbackHolder;
   return {
     createClient(options: Googlepay.PaymentOptions = {}) {
       options.environment = options?.environment ?? env;
-      return createClient(options, callbackHolder);
+      const client = new google.payments.api.PaymentsClient(options);
+      return new GooglePay(client, callbackHolder);
     },
-    ...getCallbaks(callbackHolder),
+    onBackFromGoogleAuth,
   };
 }
